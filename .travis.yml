@@ -4,7 +4,7 @@ jdk:
   - openjdk7
   - oraclejdk8
 
-install: mvn -Pbuild-swagger-documentation -DskipTests=true -B -q -fae install
+install: true
 script: mvn -B -q -fae verify
 
 git:
