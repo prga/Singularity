@@ -17,7 +17,11 @@ import org.apache.mesos.Protos.TaskID;
 import org.apache.mesos.Protos.TaskState;
 import org.apache.mesos.Protos.TaskStatus;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 
@@ -102,6 +106,19 @@ public class SingularitySchedulerTest extends SingularitySchedulerTestBase {
     return new SingularityPendingTask(new SingularityPendingTaskId(requestId, deployId, System.currentTimeMillis(), 1, pendingType, System.currentTimeMillis()),
         Optional.<List<String>> absent(), Optional.<String> absent(), Optional.<String> absent(), Optional.<Boolean> absent(), Optional.<String> absent(), Optional.<Resources>absent());
   }
+
+  @Rule
+  public TestRule watcher = new TestWatcher() {
+    @Override
+    protected void finished(Description description) {
+      System.out.println("Finished-" + description.getMethodName());
+    }
+
+    @Override
+    protected void starting(Description description) {
+      System.out.println("Starting-" + description.getMethodName());
+    }
+  };
 
   @Test
   public void testSchedulerIsolatesPendingTasksBasedOnDeploy() {
